@@ -4,12 +4,7 @@ describe "Glamazon::Attributes" do
   describe "handling attributes" do
     let(:mule) { Mule.new }
     let(:hash) { { :foo => 'bar', :baz => 'quux', :steve => 'is a really cool dude' } }
-    describe "instantiating a new object" do
-      it "accepts an optional hash with .new to assign attributes a la ActiveRecord" do
-        mule = Mule.new hash
-        hash.each { |k,v| mule.send(k).should == v }
-      end
-    end
+
     it "does not raise NoMethodError when calling a non-existent method" do
       lambda { mule.non_existent_method }.should_not raise_error
     end

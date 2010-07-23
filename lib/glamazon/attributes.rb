@@ -5,15 +5,19 @@ module Glamazon
     end
     
     def to_s
-      table.inspect
+      attributes.inspect
+    end
+    
+    def attributes
+      @attributes ||= {}
     end
     
     private
     def add_attribute(attribute)
       metaclass.class_eval do
         attribute = attribute.to_s.gsub /\=$/, ''
-        define_method(attribute) { table[attribute] }
-        define_method("#{attribute}=") { |value| table[attribute] = value }
+        define_method(attribute) { attributes[attribute] }
+        define_method("#{attribute}=") { |value| attributes[attribute] = value }
       end
     end
     
@@ -21,8 +25,5 @@ module Glamazon
       class << self; self; end
     end
     
-    def table
-      @table ||= {}
-    end
   end
 end

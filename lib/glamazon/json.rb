@@ -1,7 +1,7 @@
 module Glamazon
   module JSON
     def to_json
-      encoder.encode table
+      encoder.encode attributes
     end
     
     def encoder
