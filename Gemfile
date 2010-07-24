@@ -1,8 +1,6 @@
 source :gemcutter
 
-group :default do
-  gem 'yajl-ruby', '0.7.7'
-end
+gem 'yajl-ruby', '0.7.7', :require => 'yajl'
 
 group :test do
   gem 'rspec', '1.3.0'
