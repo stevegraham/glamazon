@@ -5,7 +5,7 @@ module Glamazon
     end
     
     def encoder
-      @encoder ||= Yajl::Encoder.new
+      @encoder ||= ::Yajl::Encoder.new
     end
   end
 end
