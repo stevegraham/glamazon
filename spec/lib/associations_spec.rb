@@ -11,7 +11,7 @@ describe Glamazon::Associations do
     end
     describe 'the instance method' do
       it 'returns an instance of Glamazon::Associations::Association' do
-        Associated.new.children.should be_an_instance_of Glamazon::Associations::Association
+        Associated.new.children.should be_an_instance_of Glamazon::Associations::HasMany
       end
     end
   end
