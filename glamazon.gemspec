@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.author            = 'Stevie Graham'
   s.email             = 'sjtgraham@mac.com'
-  s.homepage          = 'http://github.com/stevegraham/Glamazon'
+  s.homepage          = 'http://github.com/stevegraham/glamazon'
 
   s.files        = Dir['README.textile', 'lib/**/*']
   s.require_path = 'lib'
