@@ -12,6 +12,16 @@ module Glamazon
         end
       end
     end
+    def belongs_to(association)      
+      define_method(association) { instance_variable_get :"@__#{association}__" }
+      define_method("#{association}=") do |object|
+        if object.instance_of? Object.const_get(association.to_s.classify)
+          instance_variable_set :"@__#{association}__", object
+        else
+          raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@class}."
+        end
+      end 
+    end
     class HasMany < Array
       # inherit from array because we want basic array behaviour. we just want to override Array#<< to raise as Exception if
       # object being added to collection is not an instance of the expected class.
