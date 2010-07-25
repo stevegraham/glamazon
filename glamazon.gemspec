@@ -10,6 +10,8 @@ Gem::Specification.new do |s|
   s.author            = 'Stevie Graham'
   s.email             = 'sjtgraham@mac.com'
   s.homepage          = 'http://github.com/stevegraham/glamazon'
+  
+  s.add_dependency('activesupport', '>= 3.0.0.beta4')
 
   s.files        = Dir['README.textile', 'lib/**/*']
   s.require_path = 'lib'
