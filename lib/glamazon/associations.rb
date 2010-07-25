@@ -22,6 +22,7 @@ module Glamazon
         end
       end 
     end
+    alias :has_one :belongs_to
     class HasMany < Array
       # inherit from array because we want basic array behaviour. we just want to override Array#<< to raise as Exception if
       # object being added to collection is not an instance of the expected class.
