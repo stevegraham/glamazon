@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email             = 'sjtgraham@mac.com'
   s.homepage          = 'http://github.com/stevegraham/Glamazon'
 
-  s.files        = Dir['README.rdoc', 'lib/**/*']
+  s.files        = Dir['README.textile', 'lib/**/*']
   s.require_path = 'lib'
 
   s.has_rdoc = false
