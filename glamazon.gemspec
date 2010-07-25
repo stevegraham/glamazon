@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
-  s.name        = 'Glamazon'
+  s.name        = 'glamazon'
   s.version     = '0.1'
   s.summary     = 'In memory models with ActiveRecord compliant interface.'
   s.description = 'In memory models with ActiveRecord compliant interface. Intended for use in eventmachine server applications, desktop application, etc'
