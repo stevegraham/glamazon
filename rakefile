@@ -1,5 +1,12 @@
 require 'lib/glamazon'
 require 'spec/rake/spectask'
+require 'rake/gempackagetask'
+
+spec = eval(File.read('glamazon.gemspec'))
+
+Rake::GemPackageTask.new(spec) do |p|
+  p.gem_spec = spec
+end
 
 Spec::Rake::SpecTask.new do |t|
   t.spec_files = FileList['spec/**/*.rb']

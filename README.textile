@@ -1,0 +1,3 @@
+h1. Glamazon
+
+ActiveRecord interface compliant In memory models.
