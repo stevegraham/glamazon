@@ -11,7 +11,7 @@ module Glamazon
       klass = options[:class]
       define_method association do
         unless ivar = instance_variable_get(:"@__#{association}__")
-          instance_variable_set :"@__#{association}__", Glamazon::Associations::HasMany.new(association, klass)
+          instance_variable_set :"@__#{association}__", Glamazon::Associations::HasMany.new(association, self, klass)
         else
           ivar
         end
@@ -31,12 +31,13 @@ module Glamazon
     class HasMany < Array
       # inherit from array because we want basic array behaviour. we just want to override Array#<< to raise as Exception if
       # object being added to collection is not an instance of the expected class.
-      def initialize(association_type, klass = nil)
-        @class = klass ? klass.to_s.classify.constantize : association_type.to_s.singularize.classify.constantize
+      def initialize(association_type, klass = nil, associated_klass = nil)
+        @class = klass
+        @associated_class = associated_klass ? associated_klass.to_s.classify.constantize : association_type.to_s.singularize.classify.constantize
         super 0
       end
       def <<(object)
-        if object.instance_of? @class
+        if object.instance_of? @associated_class
           super object
         else
           raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@class}."
