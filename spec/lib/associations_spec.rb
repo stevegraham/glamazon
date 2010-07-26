@@ -14,7 +14,7 @@ describe Glamazon::Associations do
     end
     it 'accepts a class option if the class name cannot be inferred from the association name' do |variable|
       Child::UnLoved = Class.new
-      Associated.class_eval { has_many :children, :class => Child::UnLoved }
+      Associated.class_eval { has_many :children, :class => 'Child::UnLoved' }
       lambda { Associated.new.children << Child.new }.should raise_error Glamazon::AssociationTypeMismatch
       lambda { Associated.new.children << Child::UnLoved.new }.should_not raise_error Glamazon::AssociationTypeMismatch
     end

@@ -1,5 +1,9 @@
 require 'active_support/inflector'
 
+# For some reason constantize doesn't get included into string when you include only inflector
+# I really don't want to include anymore of active_support than necessary
+String.class_eval { def constantize() ActiveSupport::Inflector.constantize self end }
+
 module Glamazon
   AssociationTypeMismatch = Class.new StandardError
   module Associations
@@ -28,7 +32,7 @@ module Glamazon
       # inherit from array because we want basic array behaviour. we just want to override Array#<< to raise as Exception if
       # object being added to collection is not an instance of the expected class.
       def initialize(association_type, klass = nil)
-        @class = klass || Object.const_get(association_type.to_s.singularize.classify)
+        @class = klass ? klass.to_s.classify.constantize : association_type.to_s.singularize.classify.constantize
         super 0
       end
       def <<(object)
