@@ -12,6 +12,12 @@ describe Glamazon::Associations do
     it 'sets up a has many association' do
       Associated.new.should respond_to :children
     end
+    it 'accepts a class option if the class name cannot be inferred from the association name' do |variable|
+      Child::UnLoved = Class.new
+      Associated.class_eval { has_many :children, :class => Child::UnLoved }
+      lambda { Associated.new.children << Child.new }.should raise_error Glamazon::AssociationTypeMismatch
+      lambda { Associated.new.children << Child::UnLoved.new }.should_not raise_error Glamazon::AssociationTypeMismatch
+    end
     describe 'the instance method' do
       it 'returns an instance of Glamazon::Associations::Association' do
         Associated.new.children.should be_an_instance_of Glamazon::Associations::HasMany
