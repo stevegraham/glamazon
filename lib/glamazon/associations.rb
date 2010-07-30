@@ -17,10 +17,11 @@ module Glamazon
         end
       end
     end
-    def belongs_to(association)      
+    def belongs_to(association, options = {})
+      klass = (options[:class] || association).to_s.classify
       define_method(association) { instance_variable_get :"@__#{association}__" }
       define_method("#{association}=") do |object|
-        if object.instance_of? Object.const_get(association.to_s.classify)
+        if object.instance_of? klass.classify.constantize
           instance_variable_set :"@__#{association}__", object
         else
           raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@class}."
