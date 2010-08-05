@@ -18,6 +18,18 @@ describe Glamazon::Associations do
       lambda { Associated.new.children << Child.new }.should raise_error Glamazon::AssociationTypeMismatch
       lambda { Associated.new.children << Child::UnLoved.new }.should_not raise_error Glamazon::AssociationTypeMismatch
     end
+    describe 'callbacks' do
+      describe 'after_add' do
+        it 'accepts a proc object that is called when an object is added to the collection' do
+          Associated.class_eval { has_many :children, :after_add => lambda { |a,c| a.bar; c.foo  } }
+          parent = Associated.new
+          child  = Child.new
+          child.expects(:foo)
+          parent.expects(:bar)
+          parent.children << child
+        end
+      end
+    end
     describe 'the instance method' do
       it 'returns an instance of Glamazon::Associations::Association' do
         Associated.new.children.should be_an_instance_of Glamazon::Associations::HasMany
@@ -44,7 +56,7 @@ describe Glamazon::Associations do
         lambda { Associated.new.parent = 'foo' }.should raise_error Glamazon::AssociationTypeMismatch
       end
     end
-    it 'accepts a class option if the class name cannot be inferred from the association name' do |variable|
+    it 'accepts a class option if the class name cannot be inferred from the association name' do
       Crazy = Module.new
       Crazy::Parent = Class.new
       Associated.class_eval { belongs_to :parent, :class => 'Crazy::Parent' }
