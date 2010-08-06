@@ -35,6 +35,7 @@ module Glamazon
     
     def self.included(base)
       base.extend ClassMethods
+      base.extend Glamazon::Accessors
     end
   end
 end

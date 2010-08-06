@@ -1,10 +1,24 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
 describe "Glamazon::Attributes" do
+  let(:mule) { Mule.new }
+  let(:hash) { { :foo => 'bar', :baz => 'quux', :steve => 'is a really cool dude' } }
+  describe "virtual attributes" do
+    describe ".attr_readonly" do
+      it "creates an accessor that only writes once and ignores further updates" do
+        Mule.class_eval { attr_readonly :socket, :bob, :jim }
+        [:socket, :bob, :jim].each do |a|
+          mule.should respond_to a
+          mule.should respond_to "#{a}="
+          mule.send "#{a}=", 'foo'
+          mule.send(a).should == 'foo'
+          mule.send "#{a}=", 'bar'
+          mule.send(a).should == 'foo'
+        end
+      end
+    end
+  end
   describe "handling attributes" do
-    let(:mule) { Mule.new }
-    let(:hash) { { :foo => 'bar', :baz => 'quux', :steve => 'is a really cool dude' } }
-
     it "does not raise NoMethodError when calling a non-existent method" do
       lambda { mule.non_existent_method }.should_not raise_error
     end
