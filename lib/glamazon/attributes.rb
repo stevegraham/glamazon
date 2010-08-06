@@ -1,7 +1,8 @@
 module Glamazon
   module Attributes
     def method_missing(meth, *args, &blk)
-      add_attribute(meth) && send(meth, args.first) if meth.to_s =~ /\=$/
+      add_attribute(meth)
+      meth.to_s =~ /\=$/ ? send(meth, args.first) : send(meth)
     end
     
     def to_s
@@ -10,6 +11,22 @@ module Glamazon
     
     def attributes
       @attributes ||= {}
+    end
+    
+    def [](attribute)
+      attributes[attribute.to_s]
+    end
+    
+    def []=(attribute, value)
+      attributes[attribute.to_s] = value
+    end
+    
+    def read_attribute(attribute)
+      attributes[attribute.to_s]
+    end
+    
+    def write_attribute(attribute, value)
+      attributes[attribute.to_s] = value
     end
     
     private

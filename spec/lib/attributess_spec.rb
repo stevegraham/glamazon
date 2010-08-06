@@ -38,4 +38,28 @@ describe "Glamazon::Attributes" do
       mule == hash.inspect
     end
   end
+  describe '#[]' do
+    it "retrieves the attribute" do
+      mule.attribute = 'foo'
+      mule[:attribute].should == 'foo'
+    end
+  end
+  describe '#[]=' do
+    it "updates the attribute" do
+      mule[:attribute] = 'foo'
+      mule.attribute.should == 'foo'
+    end
+  end
+  describe '#read_attribute' do
+    it "retrieves the attribute" do
+      mule.attribute = 'foo'
+      mule.read_attribute(:attribute).should == 'foo'
+    end
+  end
+  describe '#write_attribute' do
+    it "updates the attribute" do
+      mule.write_attribute :attribute, 'foo'
+      mule.attribute.should == 'foo'
+    end
+  end
 end
