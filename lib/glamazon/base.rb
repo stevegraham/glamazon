@@ -11,7 +11,7 @@ module Glamazon
     
     module ClassMethods
       def find(id)
-        __instances.detect { |k,v| k == id }.last
+        __instances.detect { |k,v| k == id }.try(:last)
       end
       
       def all
