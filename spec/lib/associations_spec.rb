@@ -18,6 +18,12 @@ describe Glamazon::Associations do
       lambda { Associated.new.children << Child.new }.should raise_error Glamazon::AssociationTypeMismatch
       lambda { Associated.new.children << Child::UnLoved.new }.should_not raise_error Glamazon::AssociationTypeMismatch
     end
+    it 'does not append the same instance of an object twice' do
+      a = Associated.new
+      c = Child.new
+      10.times { a.children << c }
+      a.children.select { |o| o == c }.size.should == 1
+    end
     describe 'callbacks' do
       describe 'after_add' do
         it 'accepts a proc object that is called when an object is added to the collection' do

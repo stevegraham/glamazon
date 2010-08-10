@@ -40,7 +40,8 @@ module Glamazon
         super 0
       end
       def <<(object)
-        if object.instance_of? @associated_class
+        if object.instance_of?(@associated_class)
+          return if include?(object) 
           @callbacks[:after_add].each { |cb| cb.call @class, object }
           super object
         else
