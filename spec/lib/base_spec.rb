@@ -5,6 +5,12 @@ describe Glamazon::Base do
   let(:hash) { { :foo => 'bar', :baz => 'quux', :steve => 'is a really cool dude' } }
   after(:each) { Mule.destroy_all }
   
+  describe 'dynamic finders' do
+    it 'can find objects based on an arbitrary attribute' do
+      mule = Mule.create :foo => 'bar'
+      Mule.find_by_foo('bar').should == [mule]
+    end
+  end
   describe '.new' do
     it "accepts an optional hash with .new to assign attributes a la ActiveRecord" do
       mule = Mule.new hash
