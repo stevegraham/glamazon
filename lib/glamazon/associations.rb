@@ -41,7 +41,8 @@ module Glamazon
       end
       def <<(object)
         if object.instance_of?(@associated_class)
-          return if include?(object) 
+          return if include?(object)
+          object.send :"#{@class.class.to_s.downcase}=", @class
           @callbacks[:after_add].each { |cb| cb.call @class, object }
           super object
         else
