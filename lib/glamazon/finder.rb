@@ -6,9 +6,14 @@ module Glamazon
     def method_missing(meth, *args, &blk)
       # Dynamic finders, e.g. Klass.find_by_foo('bar)
       a = extract_attribute_from_method_name(meth)
-      if match = /find_by_([_a-zA-Z]\w*)/.match(meth.to_s)
+      if /find_by_([_a-zA-Z]\w*)/.match(meth.to_s)
         self.class.instance_eval do
           define_method(meth) { |val| all.select { |o| o[a] == val.first } }
+        end
+        send meth, args
+      elsif /find_or_create_by_([_a-zA-Z]\w*)/.match(meth.to_s)
+        self.class.instance_eval do
+          define_method(meth) { |val| send("find_by_#{a}", val) || create(a => val) }
         end
         send meth, args
       else

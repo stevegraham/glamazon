@@ -6,9 +6,17 @@ describe Glamazon::Base do
   after(:each) { Mule.destroy_all }
   
   describe 'dynamic finders' do
-    it 'can find objects based on an arbitrary attribute' do
-      mule = Mule.create :foo => 'bar'
-      Mule.find_by_foo('bar').should == [mule]
+    describe '.find_by_foo' do
+      it 'finds objects based on an arbitrary attribute' do
+        mule = Mule.create :foo => 'bar'
+        Mule.find_by_foo('bar').should == [mule]
+      end
+    end
+    describe '.find_or_create_by_foo' do
+      it 'finds objects based on an arbitrary attribute' do
+        mule = Mule.create :foo => 'bar'
+        Mule.find_or_create_by_foo('bar').should == [mule]
+      end
     end
   end
   describe '.new' do

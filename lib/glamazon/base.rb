@@ -9,12 +9,12 @@ module Glamazon
     end
     
     def save
-      self.class.send(:__instances) << self
+      self.class.all << self
     end
     
     module ClassMethods
       def all
-        __instances
+        @__all_instances__ ||= []
       end
       
       def create(params = {})
@@ -22,13 +22,7 @@ module Glamazon
       end
       
       def destroy_all
-        __instances.clear
-      end
-      
-      private
-      
-      def __instances
-        @__all_instances__ ||= []
+        all.clear
       end
     
     end

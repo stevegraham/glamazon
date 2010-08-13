@@ -37,7 +37,6 @@ module Glamazon
         @callbacks[:after_add] << options[:after_add] if options[:after_add]
         @class = klass
         @associated_class = associated_klass ? associated_klass.to_s.classify.constantize : association_type.to_s.singularize.classify.constantize
-        puts @associated_class
         super 0
       end
       def all
