@@ -49,6 +49,22 @@ module Glamazon
           raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@class}."
         end
       end
+      
+      def find(id)
+        find_by_id(id).first
+      end
+      
+      def method_missing(meth, *args, &blk)
+        if match = /find_by_([_a-zA-Z]\w*)/.match(meth.to_s)
+          self.class.class_eval do
+            a = meth.to_s.gsub /\w+_by_/, ''
+            define_method(meth) { |val| select { |o| o[a] == val.first } }
+          end
+          send meth, args
+        else
+          super
+        end
+      end
     end
   end
 end

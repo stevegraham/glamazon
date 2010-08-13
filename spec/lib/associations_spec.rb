@@ -1,6 +1,6 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class Child; end
+class Child; include Glamazon::Base; end
 class Parent; end
 class Associated; end
 
@@ -40,6 +40,20 @@ describe Glamazon::Associations do
           parent.expects(:bar)
           parent.children << child
         end
+      end
+    end
+    describe '#find' do
+      it 'finds the record with the given id' do
+        a = Associated.new
+        10.times { |i| a.children << Child.create(:id => i) }
+        Child.find(1).should == a.children.find(1)
+      end
+    end
+    describe 'dynamic finders' do
+      it 'finds the records with matching attributes' do
+        a = Associated.new
+        10.times { |i| a.children << Child.create(:id => i, :foo => i * 10) }
+        [Child.find(9).should] == a.children.find_by_foo(90)
       end
     end
     describe 'the instance method' do
