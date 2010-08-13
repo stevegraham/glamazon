@@ -1,5 +1,5 @@
 require 'active_support/inflector'
-
+require File.join File.dirname(__FILE__), 'finder'
 # For some reason constantize doesn't get included into string when you include only inflector
 # I really don't want to include anymore of active_support than necessary
 String.class_eval { def constantize() ActiveSupport::Inflector.constantize self end }
@@ -30,6 +30,7 @@ module Glamazon
     end
     alias :has_one :belongs_to
     class HasMany < Array
+      include Glamazon::Finder
       # inherit from array because we want basic array behaviour. we just want to override Array#<< to raise as Exception if
       # object being added to collection is not an instance of the expected class.
       def initialize(association_type, klass = nil, associated_klass = nil, options ={})
@@ -39,6 +40,9 @@ module Glamazon
         @associated_class = associated_klass ? associated_klass.to_s.classify.constantize : association_type.to_s.singularize.classify.constantize
         super 0
       end
+      def all
+        self
+      end
       def <<(object)
         if object.instance_of?(@associated_class)
           return if include?(object)
@@ -47,22 +51,6 @@ module Glamazon
           super object
         else
           raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@class}."
-        end
-      end
-      
-      def find(id)
-        find_by_id(id).first
-      end
-      
-      def method_missing(meth, *args, &blk)
-        if match = /find_by_([_a-zA-Z]\w*)/.match(meth.to_s)
-          self.class.class_eval do
-            a = meth.to_s.gsub /\w+_by_/, ''
-            define_method(meth) { |val| select { |o| o[a] == val.first } }
-          end
-          send meth, args
-        else
-          super
         end
       end
     end

@@ -10,6 +10,7 @@ describe Glamazon::Associations do
       Associated.class_eval { extend Glamazon::Associations; has_many :children }
       Child.class_eval { extend Glamazon::Associations; belongs_to :associated }
     end 
+    after { Child.destroy_all }
     it 'sets up a has many association' do
       Associated.new.should respond_to :children
     end
