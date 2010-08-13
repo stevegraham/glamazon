@@ -50,6 +50,13 @@ describe Glamazon::Associations do
         Child.find(1).should == a.children.find(1)
       end
     end
+    describe '#create' do
+      it 'creates a new instance of the child class' do
+        a = Associated.new
+        c = a.children.create :foo => 'bar'
+        a.children.first.should == c
+      end
+    end
     describe 'dynamic finders' do
       it 'finds the records with matching attributes' do
         a = Associated.new
