@@ -1,5 +1,4 @@
 require 'active_support/inflector'
-require File.join File.dirname(__FILE__), 'finder'
 # For some reason constantize doesn't get included into string when you include only inflector
 # I really don't want to include anymore of active_support than necessary
 String.class_eval { def constantize() ActiveSupport::Inflector.constantize self end }
