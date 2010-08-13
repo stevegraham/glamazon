@@ -13,7 +13,10 @@ module Glamazon
         send meth, args
       elsif /find_or_create_by_([_a-zA-Z]\w*)/.match(meth.to_s)
         self.class.instance_eval do
-          define_method(meth) { |val| send("find_by_#{a}", val) || create(a => val) }
+          define_method(meth) do |val|
+            res = send("find_by_#{a}", val)
+            res.empty? ? [create(a.to_sym => val)] : res
+          end
         end
         send meth, args
       else

@@ -17,6 +17,11 @@ describe Glamazon::Base do
         mule = Mule.create :foo => 'bar'
         Mule.find_or_create_by_foo('bar').should == [mule]
       end
+      it 'creates a new object with the supplied parameters if one cannot be found' do
+        Mule.expects(:create).with(:foo => 'bar').returns a = Mule.new(:foo => 'bar')
+        Mule.find_or_create_by_foo('bar').should == [a]
+        puts Mule.all
+      end
     end
   end
   describe '.new' do
