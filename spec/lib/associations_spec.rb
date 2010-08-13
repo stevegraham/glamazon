@@ -3,6 +3,9 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 class Child; include Glamazon::Base; end
 class Parent; end
 class Associated; end
+module Crazy; end
+class Crazy::Parent; end
+class Crazy::Child; end
 
 describe Glamazon::Associations do
   describe '.has_many' do
@@ -91,8 +94,6 @@ describe Glamazon::Associations do
       end
     end
     it 'accepts a class option if the class name cannot be inferred from the association name' do
-      Crazy = Module.new
-      Crazy::Parent = Class.new
       Associated.class_eval { belongs_to :parent, :class => 'Crazy::Parent' }
       lambda { Associated.new.parent = Parent.new }.should raise_error Glamazon::AssociationTypeMismatch
       lambda { Associated.new.parent = Crazy::Parent.new }.should_not raise_error Glamazon::AssociationTypeMismatch
@@ -118,9 +119,7 @@ describe Glamazon::Associations do
         lambda { Associated.new.child = 'foo' }.should raise_error Glamazon::AssociationTypeMismatch
       end
     end
-    it 'accepts a class option if the class name cannot be inferred from the association name' do |variable|
-      Crazy = Module.new
-      Crazy::Child = Class.new
+    it 'accepts a class option if the class name cannot be inferred from the association name' do
       Associated.class_eval { belongs_to :child, :class => 'Crazy::Child' }
       lambda { Associated.new.child = Child.new }.should raise_error Glamazon::AssociationTypeMismatch
       lambda { Associated.new.child = Crazy::Child.new }.should_not raise_error Glamazon::AssociationTypeMismatch
