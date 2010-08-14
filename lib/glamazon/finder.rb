@@ -1,16 +1,16 @@
 module Glamazon
   module Finder
     def find(id)
-      find_by_id([id]).first
+      find_by_id(id).first
     end
     def method_missing(meth, *args, &blk)
       # Dynamic finders, e.g. Klass.find_by_foo('bar)
       a = extract_attribute_from_method_name(meth)
       if /find_by_([_a-zA-Z]\w*)/.match(meth.to_s)
         self.class.instance_eval do
-          define_method(meth) { |val| all.select { |o| o[a] == val.first } }
+          define_method(meth) { |val| all.select { |o| o[a] == val } }
         end
-        send meth, args
+        send meth, args.first
       elsif /find_or_create_by_([_a-zA-Z]\w*)/.match(meth.to_s)
         self.class.instance_eval do
           define_method(meth) do |val|
@@ -18,7 +18,7 @@ module Glamazon
             res.empty? ? [create(a.to_sym => val)] : res
           end
         end
-        send meth, args
+        send meth, args.first
       else
         super
       end
