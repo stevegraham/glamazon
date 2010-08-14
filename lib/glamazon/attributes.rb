@@ -1,3 +1,4 @@
+require 'active_support/core_ext/hash/indifferent_access'
 module Glamazon
   module Attributes
     def method_missing(meth, *args, &blk)
@@ -10,23 +11,23 @@ module Glamazon
     end
     
     def attributes
-      @attributes ||= {}
+      @attributes ||= HashWithIndifferentAccess.new
     end
     
     def [](attribute)
-      attributes[attribute.to_s]
+      attributes[attribute]
     end
     
     def []=(attribute, value)
-      attributes[attribute.to_s] = value
+      attributes[attribute] = value
     end
     
     def read_attribute(attribute)
-      attributes[attribute.to_s]
+      attributes[attribute]
     end
     
     def write_attribute(attribute, value)
-      attributes[attribute.to_s] = value
+      attributes[attribute] = value
     end
     
     private
