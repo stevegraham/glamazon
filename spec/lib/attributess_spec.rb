@@ -49,6 +49,12 @@ describe "Glamazon::Attributes" do
       mule[:attribute] = 'foo'
       mule.attribute.should == 'foo'
     end
+    it '"touches" the object' do
+      Timecop.freeze(Time.now) do
+        mule[:attribute] = 'foo'
+        mule.updated_at.should == Time.now.getutc
+      end
+    end
   end
   describe '#read_attribute' do
     it "retrieves the attribute" do
@@ -60,6 +66,12 @@ describe "Glamazon::Attributes" do
     it "updates the attribute" do
       mule.write_attribute :attribute, 'foo'
       mule.attribute.should == 'foo'
+    end
+    it '"touches" the object' do
+      Timecop.freeze(Time.now) do
+        mule.write_attribute :attribute, 'foo'
+        mule.updated_at.should == Time.now.getutc
+      end
     end
   end
 end

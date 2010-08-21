@@ -74,4 +74,12 @@ describe Glamazon::Base do
       Mule.all.first.should == mule
     end
   end
+  describe '#touch' do
+    it 'updates/create the attribute "updated_at" with the current time' do
+      Timecop.freeze(Time.now) do
+        mule.touch
+        mule.updated_at.should == Time.now.getutc
+      end
+    end
+  end
 end

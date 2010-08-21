@@ -12,6 +12,10 @@ module Glamazon
       self.class.all << self
     end
     
+    def touch
+      self[:updated_at] = Time.now.getutc
+    end
+    
     module ClassMethods
       def all
         @__all_instances__ ||= []

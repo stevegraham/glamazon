@@ -35,7 +35,7 @@ module Glamazon
       metaclass.class_eval do
         attribute = attribute.to_s.gsub /\=$/, ''
         define_method(attribute) { attributes[attribute] } unless respond_to? attribute
-        define_method("#{attribute}=") { |value| attributes[attribute] = value } unless respond_to? "#{attribute}="
+        define_method("#{attribute}=") { |value| attributes[attribute] = value; touch } unless respond_to? "#{attribute}="
       end
     end
     

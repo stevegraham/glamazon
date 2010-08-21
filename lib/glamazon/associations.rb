@@ -34,7 +34,7 @@ module Glamazon
       include Glamazon::Finder
       def initialize(association_type, klass = nil, associated_klass = nil, options ={})
         @callbacks = Hash.new { |h,k| h[k] = [] }
-        @callbacks[:after_add] << options[:after_add] if options[:after_add]
+        Hash[options.select { |k,v| k.to_s =~ /_add$/}].each { |k,v| @callbacks[k] << options[k] }
         @class = klass
         @associated_class = associated_klass ? associated_klass.to_s.classify.constantize : association_type.to_s.singularize.classify.constantize
         super 0
