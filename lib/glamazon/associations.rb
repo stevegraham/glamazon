@@ -52,7 +52,7 @@ module Glamazon
           @callbacks[:after_add].each { |cb| cb.call @class, object }
           super object
         else
-          raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@class}."
+          raise Glamazon::AssociationTypeMismatch.new "Object is of incorrect type. Must be an instance of #{@associated_class}."
         end
       end
     end

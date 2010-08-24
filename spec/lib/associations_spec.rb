@@ -34,6 +34,11 @@ describe Glamazon::Associations do
       a.children << c = Child.new
       c.associated.should == a
     end
+    it 'throws an exception if I try to add an object of the wrong class' do
+      lambda {
+        Associated.new.children << Object.new
+      }.should raise_exception("Object is of incorrect type. Must be an instance of Child.")
+    end
     describe 'callbacks' do
       describe 'after_add' do
         it 'accepts a proc object that is called when an object is added to the collection' do
