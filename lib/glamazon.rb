@@ -1,6 +1,5 @@
-# Glamazon - Couch ORM
+# Glamazon
 # Stevie Graham
-# Picklive
 
 require 'rubygems'
 require 'bundler'

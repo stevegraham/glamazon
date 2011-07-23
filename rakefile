@@ -1,4 +1,4 @@
-require 'lib/glamazon'
+require File.join File.dirname(__FILE__), 'lib/glamazon'
 require 'spec/rake/spectask'
 require 'rake/gempackagetask'
 
