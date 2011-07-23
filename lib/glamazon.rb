@@ -2,10 +2,9 @@
 # Stevie Graham
 
 require 'rubygems'
-require 'bundler'
-Bundler.setup
-Bundler.require :default
-require 'digest/sha2'
+require 'yajl'
+require 'i18n'
+require 'active_support'
 
 %w(accessors attributes finder json associations base).each do |file|
   require File.join(File.dirname(__FILE__), 'glamazon', file)

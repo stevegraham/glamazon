@@ -30,10 +30,9 @@ describe Glamazon::Base do
       hash.each { |k,v| mule.send(k).should == v }
     end
     describe 'id attribute' do
-      it 'assigns a hash of the epoch as the id' do
-        Timecop.freeze Time.now
-        mule.id.should == Digest::SHA1.hexdigest(Time.now.to_f.to_s)
-        Timecop.return
+      it 'assigns a uuid as the id' do
+        ActiveSupport::SecureRandom.expects(:uuid).returns 'f5162adc-7dbc-4fc8-8def-afb1f77da6ae'
+        mule.id.should == 'f5162adc-7dbc-4fc8-8def-afb1f77da6ae'
       end
       it 'can optionally be overridden by user' do
         Mule.new(:id => 1).id.should == 1

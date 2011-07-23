@@ -4,7 +4,7 @@ module Glamazon
     include Glamazon::JSON
     
     def initialize(attributes = {})
-      self.id = Digest::SHA1.hexdigest(Time.now.to_f.to_s)
+      self.id = ActiveSupport::SecureRandom.uuid
       attributes.each { |k,v| send "#{k}=", v }
     end
     

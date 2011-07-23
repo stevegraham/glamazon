@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage          = 'http://github.com/stevegraham/glamazon'
 
   s.add_dependency 'i18n',          '~> 0.5.0'
+  s.add_dependency 'yajl-ruby',     '>= 0.7.7'
   s.add_dependency 'activesupport', '>= 3.0.9'
 
   s.files        = Dir['README.textile', 'lib/**/*']
