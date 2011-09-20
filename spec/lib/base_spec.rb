@@ -4,22 +4,29 @@ describe Glamazon::Base do
   let(:mule) { Mule.new }
   let(:hash) { { :foo => 'bar', :baz => 'quux', :steve => 'is a really cool dude' } }
   after(:each) { Mule.destroy_all }
-  
+
   describe 'dynamic finders' do
-    describe '.find_by_foo' do
+    describe '.find_all_by_foo' do
       it 'finds objects based on an arbitrary attribute' do
         mule = Mule.create :foo => 'bar'
-        Mule.find_by_foo('bar').should == [mule]
+        Mule.find_all_by_foo('bar').should == [mule]
       end
     end
+     describe '.find_by_foo' do
+      it 'finds the first object based on an arbitrary attribute' do
+        mule = Mule.create :foo => 'bar'
+        Mule.find_by_foo('bar').should == mule
+      end
+    end
+
     describe '.find_or_create_by_foo' do
       it 'finds objects based on an arbitrary attribute' do
         mule = Mule.create :foo => 'bar'
-        Mule.find_or_create_by_foo('bar').should == [mule]
+        Mule.find_or_create_by_foo('bar').should == mule
       end
       it 'creates a new object with the supplied parameters if one cannot be found' do
         Mule.expects(:create).with(:foo => 'bar').returns a = Mule.new(:foo => 'bar')
-        Mule.find_or_create_by_foo('bar').should == [a]
+        Mule.find_or_create_by_foo('bar').should == a
         puts Mule.all
       end
     end
@@ -31,7 +38,7 @@ describe Glamazon::Base do
     end
     describe 'id attribute' do
       it 'assigns a uuid as the id' do
-        ActiveSupport::SecureRandom.expects(:uuid).returns 'f5162adc-7dbc-4fc8-8def-afb1f77da6ae'
+        SecureRandom.expects(:uuid).returns 'f5162adc-7dbc-4fc8-8def-afb1f77da6ae'
         mule.id.should == 'f5162adc-7dbc-4fc8-8def-afb1f77da6ae'
       end
       it 'can optionally be overridden by user' do

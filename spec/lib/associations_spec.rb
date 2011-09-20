@@ -1,18 +1,25 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
-class Child; include Glamazon::Base; end
-class Parent; end
-class Associated; end
-module Crazy; end
-class Crazy::Parent; end
-class Crazy::Child; end
-
 describe Glamazon::Associations do
+  before :each do
+    Crazy = Module.new
+    %w<Child Parent Associated>.each do |const|
+      Object.const_set const, Class.new {
+        include Glamazon::Base
+      }
+      Crazy.const_set const, Class.new {
+        include Glamazon::Base
+      }
+    end
+  end
+
+  after(:each) { %w<Child Parent Associated Crazy>.each { |const| Object.send :remove_const, const } }
+
   describe '.has_many' do
     before(:each) do
       Associated.class_eval { extend Glamazon::Associations; has_many :children }
       Child.class_eval { extend Glamazon::Associations; belongs_to :associated }
-    end 
+    end
     after { Child.destroy_all }
     it 'sets up a has many association' do
       Associated.new.should respond_to :children
@@ -30,7 +37,7 @@ describe Glamazon::Associations do
       a.children.select { |o| o == c }.size.should == 1
     end
     it 'updates the associated objects belongs_to' do
-      a = Associated.new 
+      a = Associated.new
       a.children << c = Child.new
       c.associated.should == a
     end
