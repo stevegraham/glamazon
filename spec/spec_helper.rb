@@ -7,4 +7,4 @@ Bundler.require :test
 
 class Mule; include Glamazon::Base; end
 
-Spec::Runner.configure { |c| c.mock_with :mocha }
+RSpec.configure { |c| c.mock_with :mocha }
